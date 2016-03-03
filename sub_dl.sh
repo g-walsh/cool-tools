@@ -17,5 +17,6 @@ find $media -type d > /tmp/filebot/sub_dl
 
 for line in $(cat /tmp/filebot/sub_dl);
 do
+  echo $line >> /tmp/filebot/sub_log;
   filebot -get-missing-subtitles $line >> /tmp/filebot/sub_log;
 done
