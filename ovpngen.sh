@@ -8,10 +8,14 @@
 # client_temp.ovpn  - template .ovpn file
 
 name=$1
-touch ./$name.ovpn ./tmp
+touch ./$name.ovpn ./tmp ./lines
 
-echo -e "\n<ca>\n $(cat ca.crt)\n</ca>\n\n<cert>\n $(cat $name.crt)\n</cert>\n\n<key>\n $(cat $name.key)\n</cert>" > ./tmp
+cat $name.crt | grep -n '\-----' | grep -o '[0-9]\{2\}' > lines
+line1=$(head -1 lines)
+line2=$(tail -1 lines)
+
+echo -e "\n<ca>\n $(cat ca.crt)\n</ca>\n\n<cert>\n $(sed -n $(echo $line1),$(echo $line2)p $name.crt)\n</cert>\n\n<key>\n $(cat $name.key)\n</key>" > ./tmp
 
 cat client_temp.ovpn tmp > $name.ovpn
 
-rm ./tmp
+rm ./tmp ./lines
