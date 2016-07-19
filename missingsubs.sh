@@ -10,7 +10,8 @@ filebot -get-subtitles $path --lang fr --output srt --encoding utf8 -non-strict
 
 for i in $(find $path -type f | grep '^[^.]*\.srt');
 do
-  echo $i
+  mv $i ${i/srt/en.srt};
+  echo ${i/srt/en.srt}
 done
 
 for i in $(find $path -type f | grep '^[^.]*\.en.srt');
@@ -20,7 +21,8 @@ done
 
 for i in $(find $path -type f | grep '^[^.]*\.eng.srt');
 do
-  echo $i
+  mv $i ${i/eng.srt/en.srt}
+  echo ${i/eng.srt/en.srt}
 done
 
 for i in $(find $path -type f | grep '^[^.]*\.fr.srt');
